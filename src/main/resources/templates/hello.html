@@ -1,13 +1,93 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
-    <head>
-        <title>Página de Hello sendo apresentada</title>
-    </head>
-    <body>
-        <h1 th:inline="text">Alo Mundo  <span th:remove="tag" sec:authentication="name">Biblioteca - thymeleaf</span>!</h1>
-        <h1>Olá <span th:text="${nomeCasa}"></span></h1>
-        <form th:action="@{/logout}" method="post">
-            <input type="submit" value="Sair."/>
-        </form>
-    </body>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <title>Página de Hello sendo apresentada</title>
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    h1 {
+        color: #333;
+    }
+    table {
+        width: 80%;
+        margin: 5px auto;
+        border-collapse: collapse;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    input[type="text"], input[type="submit"], button {
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 4px;
+    }
+    input[type="submit"], button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        text-align: center;
+        display: inline-block;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    input[type="submit"]:hover, button:hover {
+        background-color: #45a049;
+    }
+</style>
+<body>
+    <div style="margin-left: 10px;">
+        <h1>Agenda de shows!</h1>
+        <input type="text" id="showInput" placeholder="Inserir um show">
+        <button onclick="addShow()">Adicionar Show</button>
+    </div>
+    <table id="showsTable">
+        <tr>
+            <th>Show</th>
+            <th>Ações</th>
+        </tr>
+        <!-- As linhas da tabela serão adicionadas aqui dinamicamente -->
+    </table>
+    <form action="#" method="post">
+        <input type="submit" value="Sair" />
+    </form>
+</body>
 </html>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        updateTable();
+    });
+
+    function addShow() {
+        const input = document.getElementById('showInput').value;
+        let showsList = JSON.parse(localStorage.getItem('showsList')) || [];
+        showsList.push(input);
+        localStorage.setItem('showsList', JSON.stringify(showsList));
+        updateTable();
+    }
+
+    function updateTable() {
+        const table = document.getElementById('showsTable');
+        const showsList = JSON.parse(localStorage.getItem('showsList')) || [];
+        let tableHtml = '<tr><th>Show</th><th>Ações</th></tr>';
+        showsList.forEach(show => {
+            tableHtml += `<tr><td>${show}</td><td><button onclick="deleteShow('${show}')">Excluir</button></td></tr>`;
+        });
+        table.innerHTML = tableHtml;
+    }
+
+    function deleteShow(showName) {
+        let showsList = JSON.parse(localStorage.getItem('showsList'));
+        showsList = showsList.filter(show => show !== showName);
+        localStorage.setItem('showsList', JSON.stringify(showsList));
+        updateTable();
+    }
+</script>

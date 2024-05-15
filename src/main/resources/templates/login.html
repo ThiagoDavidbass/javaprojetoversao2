@@ -1,29 +1,81 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
-  <head>
-    <title>Página de Login Apresentada. </title>
-  </head>
-  <body>
-    <div th:if="${param.error}">
-      Usuário e senha inválidos.
+
+<head>
+  <title>Página de Login Apresentada. </title>
+  <style>
+    body {
+      background-color: lightgray;
+      width: 70%;
+      text-align: center;
+      margin: 0.5em 0 2em 0;
+      padding-top: 5em;
+    }
+  </style>
+</head>
+
+<body>
+  <div th:if="${param.error}">
+    Usuário e senha inválidos.
+  </div>
+  <div th:if="${param.logout}">
+    Você deve executar logout.
+  </div>
+  <form th:action="@{/login}" method="post">
+
+    <div>
+      <label>
+        Usuário: <input type="text" name="username" />
+      </label>
     </div>
-    <div th:if="${param.logout}">
-      Você deve executar logout.
+    <div>
+      <label>
+        Senha: <input type="password" name="password" />
+      </label>
     </div>
-      <form th:action="@{/login}" method="post">
-        <div>
-          <label>
-            Usuário: <input type="text" name="username"/>
-          </label>
-        </div>
-        <div>
-          <label>
-            Senha: <input type="password" name="password"/>
-          </label>
-        </div>
-        <div>
-          <input type="submit" value="Efetuar login"/>
-        </div>
-      </form>
-  </body>
+    <div>
+      <input type="submit" value="Efetuar login" />
+    </div>
+  </form>
+</body>
+
 </html>
+<style>
+  body {
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+  }
+
+  form {
+    width: 350px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  label {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    width: 80%;
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
+
+  input[type="submit"] {
+    padding: 10px 20px;
+    border: none;
+    background-color: #007BFF;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  input[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+</style>
